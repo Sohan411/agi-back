@@ -5,9 +5,9 @@ const GD = require('./GoodsData/GoodsData');
 const PC = require('./PettyCash/PettyCash');
 
 router.get('/getGoodsData', GD.getGoodsData);
-router.post('/postGoodsData', GD.postGoodsData);
+router.get('/postGoodsData', GD.postGoodsData);
 
 router.get('/getPettyCash', PC.getPettyCash);
-router.post('postPettyCash', PC.postPettyCash);
+router.get('postPettyCash', PC.postPettyCash);
 
 module.exports = router
