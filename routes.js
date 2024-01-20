@@ -8,6 +8,7 @@ router.get('/getGoodsData', GD.getGoodsData);
 router.get('/postGoodsData', GD.postGoodsData);
 
 router.get('/getPettyCash', PC.getPettyCash);
-router.get('postPettyCash', PC.postPettyCash);
+router.get('/postPettyCash', PC.postPettyCash);
+router.post('/getDisplay', PC.getDisplay);
 
 module.exports = router
