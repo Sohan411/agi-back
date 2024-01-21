@@ -28,41 +28,65 @@ async function putObject(filename){
   return url;
 }
 
-function getGoodsData(req,res){
-  const getGoodsDataQuery = `SELECT * FROM agi_goods_data`;
-  db.query(getGoodsDataQuery, (getGoodsDataError, getGoodsDataResult) =>{
-    if(getGoodsDataError){
-      console.log(getGoodsDataError);
-      return res.status(401).json({message : 'error while fetching goods data'});
-    }
-    if(getGoodsDataResult.length === 0){
-      return res.status(404).json({message : 'no Goods Data Found'});
-    }
-    res.status(200).json({getGoodsData : getGoodsDataResult});
-  });
-}
+function postGoodsData(req, res) {
+  const {
+    location,
+    operatorName,
+    transaction,
+    segment,
+    gateKeeperName,
+    customerName,
+    invoiceNumber,
+    amount,
+    barcode,
+    partNo,
+    branchName,
+    deliveryNote,
+    branchDeliveryNote
+  } = req.body;
 
-function postGoodsData(req, res){
-  const {location, operatorName, transaction, segment, gateKeeperName, customerName, invoiceNumber, amount, barcode, partNo, branchName, deliveryNote, branchDeliveryNote} = req.body
   const postGoodsDataQuery = `INSERT INTO  agi_goods_data(location, operatorName, transaction, segment, gateKeeperName, customerName, invoiceNumber, amount, barcode, partNo, branchName, deliveryNote, branchDeliveryNote, createdAt) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,NOW())`;
 
-  async function postImage(){
-    const noteUrl = await putObject(deliveryNote);
-  
+  async function postImage() {
+    let noteUrl = null;
 
-    db.query(postGoodsDataQuery, [location, operatorName, transaction, segment, gateKeeperName, customerName, invoiceNumber, amount, barcode, partNo, branchName, noteUrl, branchDeliveryNote], (postGoodsDataError, postGoodsDataResult) => {
-      if(postGoodsDataError){
-        console.log(postGoodsDataError);
-        return res.status(401).json({message : 'error while inserting goods data'});
+    // Check if deliveryNote is not empty
+    if (deliveryNote) {
+      // Assuming putObject is an asynchronous function
+      noteUrl = await putObject(deliveryNote);
+    }
+
+    db.query(
+      postGoodsDataQuery,
+      [
+        location,
+        operatorName,
+        transaction,
+        segment,
+        gateKeeperName,
+        customerName,
+        invoiceNumber,
+        amount,
+        barcode,
+        partNo,
+        branchName,
+        noteUrl, // Use noteUrl whether it's null or the S3 URL
+        branchDeliveryNote
+      ],
+      (postGoodsDataError, postGoodsDataResult) => {
+        if (postGoodsDataError) {
+          console.log(postGoodsDataError);
+          return res.status(401).json({ message: 'error while inserting goods data' });
+        }
+        res.status(200).json({ message: 'data inserted successfully' });
       }
-      res.status(200).json({message : 'data inserted successfully'});
-    });
+    );
   }
 }
 
 
 
+
 module.exports = {
-  getGoodsData,
   postGoodsData,
 }
