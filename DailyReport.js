@@ -88,7 +88,7 @@ function sendMail(){
               // Email options
               const mailOptions = {
                   from: 'kpohekar19@gmail.com',
-                  to: 'sohansarurkar47@gmail.com',
+                  to: 'amco.cash123@gmail.com',
                   subject: 'Daily Report',
                   html: html
               };
