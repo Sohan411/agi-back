@@ -8,8 +8,8 @@ const transporter = nodemailer.createTransport({
   port: 465,
   secure: true,
   auth: {
-    user: 'kpohekar19@gmail.com',
-    pass: 'woptjevenzhqmrpp',
+    user: 'donotreplysenselive@gmail.com',
+    pass: 'qpcaneirrhrhqspt',
   },
 });
 
@@ -84,11 +84,11 @@ function sendMail(){
               pettyCashData: pettyCashData
           }, (err, html) => {
               if (err) throw err;
-
+            const recipients = ['amco.cash123@gmail.com', 'kaushalpohekar1@gmail.com', 'sohansarurkar47@gmail.com']
               // Email options
               const mailOptions = {
-                  from: 'kpohekar19@gmail.com',
-                  to: 'amco.cash123@gmail.com',
+                  from: 'donotreplysenselive@gmail.com',
+                  to: recipients,
                   subject: 'Daily Report',
                   html: html
               };
