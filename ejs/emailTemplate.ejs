@@ -1,65 +1,10 @@
 <html>
 <head>
     <title>Daily Report</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            margin-bottom: 20px;
-        }
-
-        th, td {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
 </head>
 <body>
     <h1>Daily Report - <%= date %></h1>
 
-    <!-- Table for agi_goods_data -->
-    <h2>agi_goods_data</h2>
-    <table>
-        <!-- Header row -->
-        <tr>
-            <% Object.keys(goodsData[0]).forEach(function(column) { %>
-                <th><%= column %></th>
-            <% }); %>
-        </tr>
-
-        <!-- Data rows -->
-        <% goodsData.forEach(function(entry) { %>
-            <tr>
-                <% Object.keys(entry).forEach(function(column) { %>
-                    <td><%= entry[column] %></td>
-                <% }); %>
-            </tr>
-        <% }); %>
-    </table>
-
-    <!-- Table for agi_petty_cash -->
-    <h2>agi_petty_cash</h2>
-    <table>
-        <!-- Header row -->
-        <tr>
-            <% Object.keys(pettyCashData[0]).forEach(function(column) { %>
-                <th><%= column %></th>
-            <% }); %>
-        </tr>
-
-        <!-- Data rows -->
-        <% pettyCashData.forEach(function(entry) { %>
-            <tr>
-                <% Object.keys(entry).forEach(function(column) { %>
-                    <td><%= entry[column] %></td>
-                <% }); %>
-            </tr>
-        <% }); %>
-    </table>
+    <p>Attached is the CSV file containing the daily report data.</p>
 </body>
 </html>
