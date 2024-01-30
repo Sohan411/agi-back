@@ -88,7 +88,7 @@ function sendMail() {
       }, (err, html) => {
         if (err) throw err;
 
-        const recipients = ['kaushalpohekar1@gmail.com', 'sohansarurkar47@gmail.com'];
+        const recipients = ['amco.cash123@gmail.com', 'kaushalpohekar1@gmail.com', 'sohansarurkar47@gmail.com'];
 
         // Email options
         const mailOptions = {

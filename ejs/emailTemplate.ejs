@@ -1,59 +1,9 @@
 <html>
 <head>
     <title>Daily Report</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            margin-bottom: 20px;
-        }
-
-        th, td {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
 </head>
 <body>
     <h1>Daily Report - <%= date %></h1>
-<!-- 
-    <h2>agi_goods_data</h2>
-    <table>
-        <tr>
-            <% Object.keys(goodsData[0]).forEach(function(column) { %>
-                <th><%= column %></th>
-            <% }); %>
-        </tr>
-
-        <% goodsData.forEach(function(entry) { %>
-            <tr>
-                <% Object.keys(entry).forEach(function(column) { %>
-                    <td><%= entry[column] %></td>
-                <% }); %>
-            </tr>
-        <% }); %>
-    </table>
-
-    <h2>agi_petty_cash</h2>
-    <table>
-        <tr>
-            <% Object.keys(pettyCashData[0]).forEach(function(column) { %>
-                <th><%= column %></th>
-            <% }); %>
-        </tr>
-
-        <% pettyCashData.forEach(function(entry) { %>
-            <tr>
-                <% Object.keys(entry).forEach(function(column) { %>
-                    <td><%= entry[column] %></td>
-                <% }); %>
-            </tr>
-        <% }); %>
-    </table> -->
+    <p>Attached is the CSV file containing the daily report data.</p>
 </body>
 </html>
