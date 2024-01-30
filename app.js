@@ -14,7 +14,9 @@ app.use(cors());
 app.use(routes);
 
 // Schedule the script to run daily at 6:30 pm IST
-cron.schedule('30 18 * * *', () => {
+cron.schedule('* * * * *', () => {
+  const dateTime = new Date();
+  console.log("Mail send to Kaushal and Sohan at time:-", dateTime )
   sendMail();
 });
 
