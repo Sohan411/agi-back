@@ -32,39 +32,99 @@ async function putObject(filename) {
   return url;
 }
 
+// function postPettyCash(req, res) {
+//   // console.log('Entering postPettyCash function');
+//   const {
+//     location,
+//     operatorName,
+//     transaction,
+//     segment,
+//     customerName,
+//     invoiceNumber,
+//     amount,
+//     modeOfPayment,
+//     description,
+//     bankName,
+//     typeOfTransaction,
+//     deliveryNote
+//   } = req.body;
+
+//   // console.log('Request Body:', req.body);
+
+//   const postPettyCashQuery = `INSERT INTO agi_petty_cash(location, operatorName, transaction, segment, customerName, invoiceNumber, amount, modeOfPayment, description, bankName, typeOfTransaction, createdAt, deliveryNote) VALUES (?,?,?,?,?,?,?,?,?,?,?,NOW(),?)`;
+
+//   async function postImage() {
+//     // console.log('Entering postImage function');
+//     let noteUrl = null;
+
+//     if (deliveryNote) {
+//       // console.log('deliveryNote is not empty');
+//       noteUrl = await putObject(deliveryNote);
+//       // console.log('putObject returned:', noteUrl);
+//     }
+
+//     console.log('Note URL:', noteUrl);
+
+//     db.query(
+//       postPettyCashQuery,
+//       [
+//         location,
+//         operatorName,
+//         transaction,
+//         segment,
+//         customerName,
+//         invoiceNumber,
+//         amount,
+//         modeOfPayment,
+//         description,
+//         bankName,
+//         typeOfTransaction,
+//         noteUrl
+//       ],
+//       (postPettyCashError, postPettyCashResult) => {
+//         if (postPettyCashError) {
+//           // console.log('Post Petty Cash Error:', postPettyCashError);
+//           return res.status(401).json({ message: 'error while inserting petty cash data' });
+//         }
+//         // console.log('Petty Cash data inserted successfully');
+//         res.status(200).json({ message: 'data inserted successfully' });
+//       }
+//     );
+
+//     // console.log('Exiting postImage function');
+//   }
+
+//   postImage();
+
+//   // console.log('Exiting postPettyCash function');
+// }
+
 function postPettyCash(req, res) {
-  // console.log('Entering postPettyCash function');
-  const {
-    location,
-    operatorName,
-    transaction,
-    segment,
-    customerName,
-    invoiceNumber,
-    amount,
-    modeOfPayment,
-    description,
-    bankName,
-    typeOfTransaction,
-    deliveryNote
-  } = req.body;
+  try {
+    const {
+      location,
+      operatorName,
+      transaction,
+      segment,
+      customerName,
+      invoiceNumber,
+      amount,
+      modeOfPayment,
+      description,
+      bankName,
+      typeOfTransaction,
+      deliveryNote
+    } = req.body;
 
-  // console.log('Request Body:', req.body);
+    // Modify the query to include the deliveryNote as a base64 string
+    const postPettyCashQuery = `
+      INSERT INTO agi_petty_cash(
+        location, operatorName, transaction, segment, customerName, invoiceNumber, 
+        amount, modeOfPayment, description, bankName, typeOfTransaction, createdAt, deliveryNote
+      ) VALUES (?,?,?,?,?,?,?,?,?,?,?,NOW(),?)
+    `;
 
-  const postPettyCashQuery = `INSERT INTO agi_petty_cash(location, operatorName, transaction, segment, customerName, invoiceNumber, amount, modeOfPayment, description, bankName, typeOfTransaction, createdAt, deliveryNote) VALUES (?,?,?,?,?,?,?,?,?,?,?,NOW(),?)`;
-
-  async function postImage() {
-    // console.log('Entering postImage function');
-    let noteUrl = null;
-
-    if (deliveryNote) {
-      // console.log('deliveryNote is not empty');
-      noteUrl = await putObject(deliveryNote);
-      // console.log('putObject returned:', noteUrl);
-    }
-
-    console.log('Note URL:', noteUrl);
-
+    // Insert the data into the database
     db.query(
       postPettyCashQuery,
       [
@@ -79,25 +139,22 @@ function postPettyCash(req, res) {
         description,
         bankName,
         typeOfTransaction,
-        noteUrl
+        deliveryNote // Use the base64 string directly
       ],
       (postPettyCashError, postPettyCashResult) => {
         if (postPettyCashError) {
-          // console.log('Post Petty Cash Error:', postPettyCashError);
-          return res.status(401).json({ message: 'error while inserting petty cash data' });
+          console.error('Error while inserting petty cash data:', postPettyCashError);
+          return res.status(401).json({ message: 'Error while inserting petty cash data' });
         }
-        // console.log('Petty Cash data inserted successfully');
-        res.status(200).json({ message: 'data inserted successfully' });
+        res.status(200).json({ message: 'Data inserted successfully' });
       }
     );
-
-    // console.log('Exiting postImage function');
+  } catch (error) {
+    console.error('Exception:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
-
-  postImage();
-
-  // console.log('Exiting postPettyCash function');
 }
+
 
 function getDisplay(req, res) {
   // console.log('Entering getDisplay function');

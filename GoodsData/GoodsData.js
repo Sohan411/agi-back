@@ -38,8 +38,78 @@ async function putObject(filename){
   console.log('Exiting putObject function');
 }
 
+// function postGoodsData(req, res) {
+//   console.log('Entering postGoodsData function');
+//   const {
+//     location,
+//     operatorName,
+//     transaction,
+//     segment,
+//     gateKeeperName,
+//     customerName,
+//     invoiceNumber,
+//     amount,
+//     barcode,
+//     partNo,
+//     branchName,
+//     deliveryNote,
+//     branchDeliveryNote
+//   } = req.body;
+
+//   console.log('Request Body:', req.body);
+
+//   const postGoodsDataQuery = `INSERT INTO  agi_goods_data(location, operatorName, transaction, segment, gateKeeperName, customerName, invoiceNumber, amount, barcode, partNo, branchName, deliveryNote, branchDeliveryNote, createdAt) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,NOW())`;
+
+//   async function postImage() {
+//     console.log('Entering postImage function');
+//     let noteUrl = null;
+
+//     // Check if deliveryNote is not empty
+//     if (deliveryNote) {
+//       console.log('deliveryNote is not empty');
+//       // Assuming putObject is an asynchronous function
+//       noteUrl = await putObject(deliveryNote);
+//       console.log('putObject returned:', noteUrl);
+//     }
+
+//     console.log('Note URL:', noteUrl);
+
+//     db.query(
+//       postGoodsDataQuery,
+//       [
+//         location,
+//         operatorName,
+//         transaction,
+//         segment,
+//         gateKeeperName,
+//         customerName,
+//         invoiceNumber,
+//         amount,
+//         barcode,
+//         partNo,
+//         branchName,
+//         noteUrl, // Use noteUrl whether it's null or the S3 URL
+//         branchDeliveryNote
+//       ],
+//       (postGoodsDataError, postGoodsDataResult) => {
+//         if (postGoodsDataError) {
+//           console.log('Post Goods Data Error:',postGoodsDataError);
+//           return res.status(401).json({ message: 'error while inserting goods data' });
+//         }
+//         console.log('Goods data inserted successfully');
+//         res.status(200).json({ message: 'data inserted successfully' });
+//       }
+//     );
+//     console.log('Exiting postImage function');
+//   }
+//   postImage();
+
+//   console.log('Exiting postGoodsData function');
+// }
+
 function postGoodsData(req, res) {
   console.log('Entering postGoodsData function');
+
   const {
     location,
     operatorName,
@@ -58,54 +128,38 @@ function postGoodsData(req, res) {
 
   console.log('Request Body:', req.body);
 
-  const postGoodsDataQuery = `INSERT INTO  agi_goods_data(location, operatorName, transaction, segment, gateKeeperName, customerName, invoiceNumber, amount, barcode, partNo, branchName, deliveryNote, branchDeliveryNote, createdAt) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,NOW())`;
+  const postGoodsDataQuery = `INSERT INTO agi_goods_data(location, operatorName, transaction, segment, gateKeeperName, customerName, invoiceNumber, amount, barcode, partNo, branchName, deliveryNote, branchDeliveryNote, createdAt) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,NOW())`;
 
-  async function postImage() {
-    console.log('Entering postImage function');
-    let noteUrl = null;
-
-    // Check if deliveryNote is not empty
-    if (deliveryNote) {
-      console.log('deliveryNote is not empty');
-      // Assuming putObject is an asynchronous function
-      noteUrl = await putObject(deliveryNote);
-      console.log('putObject returned:', noteUrl);
-    }
-
-    console.log('Note URL:', noteUrl);
-
-    db.query(
-      postGoodsDataQuery,
-      [
-        location,
-        operatorName,
-        transaction,
-        segment,
-        gateKeeperName,
-        customerName,
-        invoiceNumber,
-        amount,
-        barcode,
-        partNo,
-        branchName,
-        noteUrl, // Use noteUrl whether it's null or the S3 URL
-        branchDeliveryNote
-      ],
-      (postGoodsDataError, postGoodsDataResult) => {
-        if (postGoodsDataError) {
-          console.log('Post Goods Data Error:',postGoodsDataError);
-          return res.status(401).json({ message: 'error while inserting goods data' });
-        }
-        console.log('Goods data inserted successfully');
-        res.status(200).json({ message: 'data inserted successfully' });
+  db.query(
+    postGoodsDataQuery,
+    [
+      location,
+      operatorName,
+      transaction,
+      segment,
+      gateKeeperName,
+      customerName,
+      invoiceNumber,
+      amount,
+      barcode,
+      partNo,
+      branchName,
+      deliveryNote,
+      branchDeliveryNote
+    ],
+    (postGoodsDataError, postGoodsDataResult) => {
+      if (postGoodsDataError) {
+        console.log('Post Goods Data Error:', postGoodsDataError);
+        return res.status(401).json({ message: 'error while inserting goods data' });
       }
-    );
-    console.log('Exiting postImage function');
-  }
-  postImage();
+      console.log('Goods data inserted successfully');
+      res.status(200).json({ message: 'data inserted successfully' });
+    }
+  );
 
   console.log('Exiting postGoodsData function');
 }
+
 
 async function getGoodsData(req, res) {
   const getGoodsDataQuery = `SELECT * FROM agi_goods_data`;
