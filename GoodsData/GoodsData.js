@@ -1,7 +1,8 @@
 const db = require('../db');
+const fs = require('fs');
+const { v4: uuidv4 } = require('uuid');
 
 function postGoodsData(req, res) {
-  console.log('Entering postGoodsData function');
 
   const {
     location,
@@ -18,8 +19,6 @@ function postGoodsData(req, res) {
     deliveryNote,
     branchDeliveryNote
   } = req.body;
-
-  console.log('Request Body:', req.body);
 
   const postGoodsDataQuery = `INSERT INTO agi_goods_data(location, operatorName, transaction, segment, gateKeeperName, customerName, invoiceNumber, amount, barcode, partNo, branchName, deliveryNote, branchDeliveryNote, createdAt) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,NOW())`;
 
@@ -49,10 +48,11 @@ function postGoodsData(req, res) {
       res.status(200).json({ message: 'data inserted successfully' });
     }
   );
-
-  console.log('Exiting postGoodsData function');
 }
 
+function generateUniqueFileName() {
+  return `${uuidv4()}`;
+}
 
 async function getGoodsData(req, res) {
   const getGoodsDataQuery = `SELECT * FROM agi_goods_data`;
